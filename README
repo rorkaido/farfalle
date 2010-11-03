@@ -1,2 +1,14 @@
 This is a repo for simple version of web analytics tool written in ruby
 
+####### BEFORE USING
+edit ":AccessLogs" configuration for your access_log(s) file path
+
+####### USAGE
+require 'farfalle'
+
+class MyFarfalle
+  include Farfalle
+end
+
+myFarfalle = MyFarfalle.new
+myFarfalle.read_access_logs
