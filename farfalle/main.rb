@@ -44,6 +44,28 @@ module Farfalle
     end
   end
 
+  # simply output to stdout, for now...
+  def write_access_count
+    @counted.sort.each do |date_str, counted_data|
+      puts "----------------------"
+      puts '[' + date_str + ']'
+      puts 'URL RANKING(URL, PV, UU)'
+      #counted_data[:URL].each do |url_str, url_data|
+      counted_data[:URL].sort{|a, b| (b[1][:PV] <=> a[1][:PV]) * 2 + ( a[0] <=> b[0] )}.each do |url_str, url_data|
+        CSV::Writer.generate($stdout, "\t") do |writer|
+              writer << [url_str, url_data[:PV], url_data[:UserIDs].length]
+        end
+      end
+      puts ''
+      puts 'KEYWORD RANKING(KEYWORD, Entries, UU)'
+      counted_data[:Keyword].sort{|a, b| (b[1][:Entry] <=> a[1][:Entry]) * 2 + ( a[0] <=> b[0] )}.each do |keyword_str, keyword_data|
+        CSV::Writer.generate($stdout, "\t") do |writer|
+              writer << [keyword_str, keyword_data[:Entry], keyword_data[:UserIDs].length]
+        end
+      end
+    end
+  end
+
 private
   # returns a hash of
   # :URL        => URL

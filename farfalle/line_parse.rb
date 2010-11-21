@@ -26,20 +26,27 @@ module Farfalle
 
   private
     def set_url
-      url_elements = CSV.parse_line( @parsed_elements[4], ' ' )
+      url_elements = CSV.parse_line( @parsed_elements[Farfalle::Config::FileElements[:request_first_line]], ' ' )
       @url = url_elements[1]
     end
 
     def set_referrer
-      @referrer = @parsed_elements[7]
+      @referrer = @parsed_elements[Farfalle::Config::FileElements[:referrer]]
     end
 
     def set_user_id
-      @user_id = @parsed_elements[8]
+      if Farfalle::Config::FileElements[:user_id]
+        @user_id = @parsed_elements[Farfalle::Config::FileElements[:user_id]]
+      else
+        @user_id = [ 
+                      @parsed_elements[Farfalle::Config::FileElements[:remote_host]],
+                      @parsed_elements[Farfalle::Config::FileElements[:user_agent]]
+                   ].join("\t")
+      end
     end
 
     def set_access_time
-      datetime_str = @parsed_elements[3]
+      datetime_str = @parsed_elements[Farfalle::Config::FileElements[:access_time]]
       ### convert @access_time to be readable for ParseDate
       datetime_str.gsub!(%r{^([^:]+)/([^:]+)/([^:]+):}, '\1-\2-\3T' )
       parsed_date =  ParseDate::parsedate( datetime_str )

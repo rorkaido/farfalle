@@ -14,6 +14,22 @@ module Farfalle
     File = {
       :AccessLogs   => '/etc/apache/logs/access_log*',
     }
+    # index starts with 0
+    #
+    # define either
+    #   :user_id
+    #   OR
+    #   :remote_host AND :user_agent
+    # in order to oount Unique Users
+    FileElements = {
+      :request_first_line => 4,
+      :referrer           => 7,
+      :access_time        => 3,
+
+      :user_id            => nil,
+      :remote_host        => 0,
+      :user_agent         => 8,
+    }
     SearchEngine = [
       { :domain => 'www.google.co.jp',    :uri_path => '/search', :query_key => 'q' },
       { :domain => 'www.google.com',      :uri_path => '/search', :query_key => 'q' },
