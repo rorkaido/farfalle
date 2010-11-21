@@ -1,7 +1,7 @@
 This is a repo for simple version of web analytics tool written in ruby
 
 ####### BEFORE USING
-edit ":AccessLogs" configuration for your access_log(s) file path
+edit farfalle/config.rb
 
 ####### USAGE
 require 'farfalle'
@@ -12,3 +12,4 @@ end
 
 myFarfalle = MyFarfalle.new
 myFarfalle.read_access_logs
+myFarfalle.write_access_count
